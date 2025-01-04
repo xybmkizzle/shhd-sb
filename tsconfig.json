@@ -1,0 +1,12 @@
+/**
+ * Root TypeScript configuration
+ * References app and node configurations
+ */
+
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
