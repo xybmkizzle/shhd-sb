@@ -1,6 +1,5 @@
 /**
  * Basic information form step
- * Collects core professional details like name, title, and bio
  */
 
 import { ChangeEvent } from 'react';
@@ -13,17 +12,17 @@ interface Props {
 }
 
 export default function BasicInfo({ data, onUpdate }: Props) {
-  // Handle form field changes
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     onUpdate({ [name]: value });
   };
 
+  const inputClasses = "w-full px-3 py-2 bg-transparent border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 transition-colors";
+
   return (
     <div className="space-y-6">
-      {/* Profile photo upload */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-300 mb-2">
           Profile Photo
         </label>
         <ImageUpload
@@ -32,9 +31,8 @@ export default function BasicInfo({ data, onUpdate }: Props) {
         />
       </div>
 
-      {/* Basic information form fields */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-300 mb-2">
           Full Name
         </label>
         <input
@@ -42,13 +40,13 @@ export default function BasicInfo({ data, onUpdate }: Props) {
           name="name"
           value={data.name}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+          className={inputClasses}
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-300 mb-2">
           Professional Title
         </label>
         <input
@@ -56,13 +54,13 @@ export default function BasicInfo({ data, onUpdate }: Props) {
           name="title"
           value={data.title}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+          className={inputClasses}
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-300 mb-2">
           Bio
         </label>
         <textarea
@@ -70,13 +68,13 @@ export default function BasicInfo({ data, onUpdate }: Props) {
           value={data.bio}
           onChange={handleChange}
           rows={4}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+          className={inputClasses}
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-300 mb-2">
           Session Rate (USD)
         </label>
         <input
@@ -84,7 +82,7 @@ export default function BasicInfo({ data, onUpdate }: Props) {
           name="rate"
           value={data.rate}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-purple-500 focus:border-purple-500"
+          className={inputClasses}
           required
         />
       </div>

@@ -1,10 +1,3 @@
-/** 
- * Tailwind CSS configuration
- * - Customizes color palette with purple theme
- * - Configures content paths for purging unused styles
- * - Extends theme with custom color values
- */
-
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],

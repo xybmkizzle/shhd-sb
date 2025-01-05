@@ -1,6 +1,5 @@
 /**
  * Specialties selection step
- * Allows professionals to select their areas of expertise and session types
  */
 
 import { ProfessionalFormData } from '../../../types';
@@ -12,7 +11,6 @@ interface Props {
 }
 
 export default function Specialties({ data, onUpdate }: Props) {
-  // Toggle specialty selection
   const toggleSpecialty = (specialty: string) => {
     const updated = data.specialties.includes(specialty)
       ? data.specialties.filter(s => s !== specialty)
@@ -20,7 +18,6 @@ export default function Specialties({ data, onUpdate }: Props) {
     onUpdate({ specialties: updated });
   };
 
-  // Toggle session type selection
   const toggleSessionType = (type: string) => {
     const updated = data.sessionTypes.includes(type)
       ? data.sessionTypes.filter(t => t !== type)
@@ -30,18 +27,17 @@ export default function Specialties({ data, onUpdate }: Props) {
 
   return (
     <div className="space-y-8">
-      {/* Specialties selection */}
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Areas of Expertise</h3>
+        <h3 className="text-lg font-medium text-gray-200 mb-4">Areas of Expertise</h3>
         <div className="grid grid-cols-2 gap-3">
           {SPECIALTIES.map((specialty) => (
             <button
               key={specialty}
               onClick={() => toggleSpecialty(specialty)}
-              className={`p-3 rounded-lg text-left ${
+              className={`p-3 rounded-lg text-left transition-colors ${
                 data.specialties.includes(specialty)
-                  ? 'bg-purple-100 text-purple-800 border-2 border-purple-500'
-                  : 'bg-gray-50 text-gray-700 border border-gray-300'
+                  ? 'bg-purple-900/30 text-purple-200 border-2 border-purple-500'
+                  : 'bg-gray-800 text-gray-300 border border-gray-700 hover:bg-gray-700'
               }`}
             >
               {specialty}
@@ -50,18 +46,17 @@ export default function Specialties({ data, onUpdate }: Props) {
         </div>
       </div>
 
-      {/* Session types selection */}
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">Session Types</h3>
+        <h3 className="text-lg font-medium text-gray-200 mb-4">Session Types</h3>
         <div className="flex gap-4">
           {SESSION_TYPES.map((type) => (
             <button
               key={type}
               onClick={() => toggleSessionType(type)}
-              className={`px-6 py-3 rounded-lg ${
+              className={`px-6 py-3 rounded-lg transition-colors ${
                 data.sessionTypes.includes(type)
-                  ? 'bg-purple-100 text-purple-800 border-2 border-purple-500'
-                  : 'bg-gray-50 text-gray-700 border border-gray-300'
+                  ? 'bg-purple-900/30 text-purple-200 border-2 border-purple-500'
+                  : 'bg-gray-800 text-gray-300 border border-gray-700 hover:bg-gray-700'
               }`}
             >
               {type}
