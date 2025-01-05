@@ -20,9 +20,9 @@ export default function GoogleCalendarConnect({ onConnect, isConnected }: Props)
       setIsConnecting(true);
       setError(null);
       
-      const result = await login();
-      if (result?.access_token) {
-        onConnect(result.access_token);
+      const tokenResponse = await login();
+      if (tokenResponse && 'access_token' in tokenResponse) {
+        onConnect(tokenResponse.access_token);
       } else {
         throw new Error('No access token received');
       }
