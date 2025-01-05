@@ -1,9 +1,10 @@
 /**
  * Calendar component for booking appointments
  */
+
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { format, addMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, isToday, isBefore, startOfToday } from 'date-fns';
+import { format, addMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, isToday, isBefore, startOfToday, getDay } from 'date-fns';
 import TimeSlotList from './TimeSlotList';
 import CalendarEvents from './CalendarEvents';
 import { isDayAvailable } from '../../utils/availabilityService';
@@ -16,7 +17,7 @@ interface CalendarProps {
 }
 
 export default function Calendar({ selectedDate, onDateChange, onTimeSelected, accessToken }: CalendarProps) {
-  const [currentMonth, setCurrentMonth] = useState(() => startOfMonth(new Date()));
+  const [currentMonth, setCurrentMonth] = useState(() => startOfMonth(selectedDate));
   const today = startOfToday();
 
   const monthDays = eachDayOfInterval({
@@ -42,9 +43,11 @@ export default function Calendar({ selectedDate, onDateChange, onTimeSelected, a
     `;
   };
 
+  // Get day of week for proper alignment
+  const startWeekday = getDay(startOfMonth(currentMonth));
+
   return (
     <div className="flex flex-col md:flex-row gap-8">
-      {/* Calendar grid */}
       <div className="w-full md:w-96 bg-[#191919] rounded-lg p-6">
         <div className="flex items-center justify-between mb-6">
           <button 
@@ -71,6 +74,11 @@ export default function Calendar({ selectedDate, onDateChange, onTimeSelected, a
         </div>
 
         <div className="grid grid-cols-7 gap-1">
+          {/* Add empty cells for proper day alignment */}
+          {Array.from({ length: startWeekday }).map((_, index) => (
+            <div key={`empty-${index}`} />
+          ))}
+          
           {monthDays.map(day => {
             const isPast = isBefore(day, today);
             const isAvailable = !isPast && isDayAvailable(day);
@@ -92,7 +100,6 @@ export default function Calendar({ selectedDate, onDateChange, onTimeSelected, a
         </div>
       </div>
 
-      {/* Events and time slots */}
       <div className="flex-1 space-y-8">
         <div className="bg-[#191919] rounded-lg p-6">
           <CalendarEvents 
