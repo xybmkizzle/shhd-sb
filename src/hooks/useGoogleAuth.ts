@@ -2,7 +2,7 @@
  * Custom hook for handling Google OAuth authentication
  */
 import { useState, useCallback } from 'react';
-import { useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin, TokenResponse } from '@react-oauth/google';
 
 export function useGoogleAuth() {
   const [error, setError] = useState<string | null>(null);
@@ -10,13 +10,6 @@ export function useGoogleAuth() {
 
   const login = useGoogleLogin({
     scope: 'https://www.googleapis.com/auth/calendar.events.readonly https://www.googleapis.com/auth/calendar.readonly',
-    onSuccess: tokenResponse => {
-      setError(null);
-      return tokenResponse.access_token;
-    },
-    onError: () => {
-      setError('Failed to connect to Google Calendar');
-    },
     flow: 'implicit'
   });
 
@@ -27,7 +20,8 @@ export function useGoogleAuth() {
 
     try {
       setError(null);
-      return await login();
+      const response = await login();
+      return response.access_token;
     } catch (err) {
       setError('Failed to connect to Google Calendar');
       return null;
