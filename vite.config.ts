@@ -1,11 +1,3 @@
-/**
- * Vite configuration for the application
- * - Configures React plugin
- * - Excludes lucide-react from optimization
- * - Sets up development server for OAuth compatibility
- * - Forces port 5173 for OAuth redirect
- */
-
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -15,7 +7,11 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   server: {
-    port: 5173, // Force specific port for OAuth
-    strictPort: true, // Don't try other ports if 5173 is taken
+    port: 5173,
+    strictPort: true,
+    headers: {
+      'Cross-Origin-Opener-Policy': 'unsafe-none',
+      'Cross-Origin-Embedder-Policy': 'unsafe-none'
+    }
   },
 });
