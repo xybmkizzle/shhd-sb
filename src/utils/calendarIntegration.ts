@@ -17,8 +17,6 @@ export async function getGoogleCalendarSlots(
   if (!accessToken) return baseSlots;
 
   try {
-    console.log('Fetching calendar events with token:', accessToken);
-    
     const timeMin = new Date(date.setHours(0, 0, 0, 0)).toISOString();
     const timeMax = new Date(date.setHours(23, 59, 59, 999)).toISOString();
     
@@ -34,13 +32,10 @@ export async function getGoogleCalendarSlots(
 
     if (!response.ok) {
       const errorData = await response.json();
-      console.error('Calendar API error:', errorData);
       throw new Error(errorData.error?.message || `Calendar API error: ${response.status}`);
     }
 
     const data = await response.json();
-    console.log('Calendar events:', data.items);
-
     const events: CalendarEvent[] = data.items || [];
 
     return baseSlots.map(slot => {

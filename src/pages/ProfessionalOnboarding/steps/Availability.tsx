@@ -25,10 +25,10 @@ export default function Availability({ data, onUpdate }: Props) {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium text-gray-900 mb-4">
+        <h3 className="text-lg font-medium text-gray-200 mb-4">
           Connect Your Calendar
         </h3>
-        <p className="text-gray-600 mb-4">
+        <p className="text-gray-400 mb-4">
           Connect your Google Calendar to automatically sync your availability and prevent double bookings.
         </p>
         <GoogleCalendarConnect
