@@ -23,5 +23,40 @@ export const professionals: Professional[] = [
     reviewCount: 124,
     gender: 'Female'
   },
-  // Additional professionals...
+  {
+    id: '2',
+    name: 'Dr. James Chen',
+    title: 'Marriage and Family Therapist',
+    location: 'San Francisco, California',
+    specialties: ['Relationships', 'Family Dynamics', 'Cultural Identity', 'Work-Life Balance'],
+    imageUrl: 'https://images.unsplash.com/photo-1556157382-97eda2d62296',
+    bio: 'As a relationship expert with a multicultural background, I help couples and families build stronger connections while navigating cultural differences. I offer a safe space for exploring identity and improving communication.',
+    verifications: [
+      'Vetted by the Safe Haven Team',
+      'AAPI community specialist',
+      'Certified Gottman Method Therapist'
+    ],
+    sessionTypes: ['Virtual', 'In-person'],
+    rating: 4.8,
+    reviewCount: 98,
+    gender: 'Male'
+  },
+  {
+    id: '3',
+    name: 'Dr. Sarah Martinez',
+    title: 'LGBTQ+ Affirming Therapist',
+    location: 'Austin, Texas',
+    specialties: ['LGBTQ+ Issues', 'Self-Care', 'Stress Management', 'Cultural Identity'],
+    imageUrl: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df',
+    bio: 'I provide affirming therapy for the LGBTQ+ community, focusing on identity exploration, coming out support, and relationship guidance. My practice is grounded in intersectional understanding and trauma-informed care.',
+    verifications: [
+      'Vetted by the Safe Haven Team',
+      'LGBTQ+ Certified Therapist',
+      'Gender-Affirming Care Specialist'
+    ],
+    sessionTypes: ['Virtual'],
+    rating: 5.0,
+    reviewCount: 87,
+    gender: 'Non-binary'
+  }
 ];
