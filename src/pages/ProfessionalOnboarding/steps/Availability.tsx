@@ -14,10 +14,9 @@ interface Props {
 }
 
 export default function Availability({ data, onUpdate }: Props) {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
   const [accessToken, setAccessToken] = useState<string>();
 
-  // Handle Google Calendar connection
   const handleCalendarConnect = (token: string) => {
     setAccessToken(token);
     onUpdate({ googleCalendarConnected: true });
@@ -25,7 +24,6 @@ export default function Availability({ data, onUpdate }: Props) {
 
   return (
     <div className="space-y-6">
-      {/* Google Calendar integration */}
       <div>
         <h3 className="text-lg font-medium text-gray-900 mb-4">
           Connect Your Calendar
@@ -39,10 +37,10 @@ export default function Availability({ data, onUpdate }: Props) {
         />
       </div>
 
-      {/* Availability calendar */}
       <Calendar
         selectedDate={selectedDate}
         onDateChange={setSelectedDate}
+        onTimeSelected={() => {}}
         accessToken={accessToken}
       />
     </div>
