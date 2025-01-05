@@ -4,12 +4,21 @@
 import { useState, useCallback } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 
+// Define available calendar scopes
+const CALENDAR_SCOPES = {
+  READ: 'https://www.googleapis.com/auth/calendar.readonly',
+  EVENTS: 'https://www.googleapis.com/auth/calendar.events'
+} as const;
+
 export function useGoogleAuth() {
   const [error, setError] = useState<string | null>(null);
   const isDevelopment = !import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   const login = useGoogleLogin({
-    scope: 'https://www.googleapis.com/auth/calendar.readonly',
+    scope: [
+      CALENDAR_SCOPES.READ,
+      // Add CALENDAR_SCOPES.EVENTS if you need to create/modify events
+    ].join(' '),
     flow: 'implicit',
     onSuccess: tokenResponse => {
       return tokenResponse;
