@@ -19,13 +19,15 @@ export default function GoogleCalendarConnect({ onConnect, isConnected }: Props)
     try {
       setIsConnecting(true);
       setError(null);
-      const token = await login();
-      if (token) {
-        onConnect(token);
+      
+      const result = await login();
+      if (result?.access_token) {
+        onConnect(result.access_token);
       } else {
-        setError('Failed to connect to Google Calendar');
+        throw new Error('No access token received');
       }
     } catch (err) {
+      console.error('Calendar connection error:', err);
       setError('Failed to connect to Google Calendar');
     } finally {
       setIsConnecting(false);
