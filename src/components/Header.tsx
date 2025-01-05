@@ -18,7 +18,7 @@ export default function Header() {
           {/* Professional signup button */}
           <Link
             to="/onboarding"
-            className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+            className="inline-flex items-center px-4 py-2 bg-purple-600 text-white hover:text-white rounded-lg hover:bg-purple-700 transition-colors"
           >
             Join as Professional
           </Link>
