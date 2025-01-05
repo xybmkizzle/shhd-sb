@@ -1,13 +1,13 @@
 /**
  * Calendar component for booking appointments
  * Handles date selection, time slot display, and Google Calendar integration
- * Shows available slots based on professional's schedule and Google Calendar
  */
 
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { format, addMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, isToday, isBefore, startOfToday } from 'date-fns';
 import TimeSlotList from './TimeSlotList';
+import CalendarEvents from './CalendarEvents';
 import { isDayAvailable } from '../../utils/availabilityService';
 
 interface CalendarProps {
@@ -18,21 +18,17 @@ interface CalendarProps {
 }
 
 export default function Calendar({ selectedDate, onDateChange, onTimeSelected, accessToken }: CalendarProps) {
-  // Track the currently displayed month
   const [currentMonth, setCurrentMonth] = useState(startOfMonth(selectedDate));
   const today = startOfToday();
   
-  // Generate array of days for the current month
   const monthDays = eachDayOfInterval({
     start: startOfMonth(currentMonth),
     end: endOfMonth(currentMonth)
   });
 
-  // Month navigation handlers
   const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
   const prevMonth = () => setCurrentMonth(addMonths(currentMonth, -1));
 
-  // Generate classes for calendar day cells
   const getDayClasses = (day: Date) => {
     const isPast = isBefore(day, today);
     const isAvailable = !isPast && isDayAvailable(day);
@@ -68,7 +64,6 @@ export default function Calendar({ selectedDate, onDateChange, onTimeSelected, a
           </button>
         </div>
 
-        {/* Day labels */}
         <div className="grid grid-cols-7 gap-1 mb-2">
           {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
             <div key={day} className="text-center text-sm font-medium text-gray-400">
@@ -77,7 +72,6 @@ export default function Calendar({ selectedDate, onDateChange, onTimeSelected, a
           ))}
         </div>
 
-        {/* Calendar days */}
         <div className="grid grid-cols-7 gap-1">
           {monthDays.map(day => {
             const isPast = isBefore(day, today);
@@ -91,7 +85,6 @@ export default function Calendar({ selectedDate, onDateChange, onTimeSelected, a
                 className={getDayClasses(day)}
               >
                 {format(day, 'd')}
-                {/* Availability indicator dot */}
                 {isAvailable && isSameMonth(day, currentMonth) && !isPast && (
                   <span className="absolute bottom-0.5 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full bg-purple-400" />
                 )}
@@ -101,16 +94,22 @@ export default function Calendar({ selectedDate, onDateChange, onTimeSelected, a
         </div>
       </div>
 
-      {/* Time slot selection */}
-      <div className="flex-1 bg-[#191919] rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-gray-200 mb-6">
-          {format(selectedDate, 'EEEE, MMMM d')}
-        </h3>
-        <TimeSlotList 
-          selectedDate={selectedDate}
-          onTimeSelected={onTimeSelected}
-          accessToken={accessToken}
-        />
+      {/* Events and time slots */}
+      <div className="flex-1 space-y-8">
+        <div className="bg-[#191919] rounded-lg p-6">
+          <CalendarEvents 
+            selectedDate={selectedDate}
+            accessToken={accessToken}
+          />
+        </div>
+
+        <div className="bg-[#191919] rounded-lg p-6">
+          <TimeSlotList 
+            selectedDate={selectedDate}
+            onTimeSelected={onTimeSelected}
+            accessToken={accessToken}
+          />
+        </div>
       </div>
     </div>
   );
