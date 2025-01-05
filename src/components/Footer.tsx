@@ -1,6 +1,5 @@
 /**
  * Footer component with legal links and information
- * Displays terms and privacy policy links
  */
 
 import { Link } from 'react-router-dom';
@@ -11,9 +10,23 @@ export default function Footer() {
       <div className="max-w-4xl mx-auto px-4">
         <p className="text-center text-gray-300">
           By using this service, you agree to our{' '}
-          <Link to="/terms" className="text-purple-400 hover:text-purple-300">Terms and Conditions</Link>
+          <a 
+            href="https://www.expressyourselfblackman.com/terms-and-conditions" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-purple-400 hover:text-purple-300"
+          >
+            Terms and Conditions
+          </a>
           {' '}and{' '}
-          <Link to="/privacy" className="text-purple-400 hover:text-purple-300">Privacy Policy</Link>.
+          <a 
+            href="https://www.expressyourselfblackman.com/privacy-policy" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-purple-400 hover:text-purple-300"
+          >
+            Privacy Policy
+          </a>.
         </p>
       </div>
     </footer>

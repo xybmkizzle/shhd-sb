@@ -1,6 +1,5 @@
 /**
  * Card component for displaying professional information
- * Shows profile image, credentials, specialties, and booking options
  */
 
 import { CheckCircle, Star, Video, Users } from 'lucide-react';
@@ -17,13 +16,13 @@ export default function ProfessionalCard({ professional, searchQuery = '' }: Pro
   return (
     <div className="rounded-lg p-6 grid grid-cols-1 md:grid-cols-3 gap-6" style={{ backgroundColor: '#191919' }}>
       {/* Profile Image Section */}
-      <div>
+      <Link to={`/professional/${professional.id}`}>
         <img 
           src={professional.imageUrl} 
           alt={professional.name}
-          className="w-full aspect-square object-cover rounded-lg"
+          className="w-full aspect-square object-cover rounded-lg hover:opacity-90 transition-opacity"
         />
-      </div>
+      </Link>
       
       {/* Professional Details Section */}
       <div className="md:col-span-2 space-y-4">
@@ -94,7 +93,7 @@ export default function ProfessionalCard({ professional, searchQuery = '' }: Pro
         {/* Profile link */}
         <Link
           to={`/professional/${professional.id}`}
-          className="inline-block px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors mt-4"
+          className="inline-block px-6 py-2 bg-purple-600 text-white hover:bg-purple-700 hover:text-white transition-colors mt-4 rounded-lg"
         >
           View My Profile
         </Link>
