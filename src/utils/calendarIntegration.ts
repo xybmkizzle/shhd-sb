@@ -1,16 +1,12 @@
 /**
  * Google Calendar integration service
- * Handles fetching and processing calendar availability
  */
-
 import { TimeSlot } from '../types/availability';
-import { format, parse, addMinutes, startOfDay, endOfDay, isWithinInterval } from 'date-fns';
-import { RRule } from 'rrule';
+import { format, parse, addMinutes } from 'date-fns';
 
 interface CalendarEvent {
   start: { dateTime?: string; date?: string };
   end: { dateTime?: string; date?: string };
-  recurrence?: string[];
 }
 
 export async function getGoogleCalendarSlots(
@@ -21,15 +17,16 @@ export async function getGoogleCalendarSlots(
   if (!accessToken) return baseSlots;
 
   try {
-    // Get events for the selected date
-    const timeMin = startOfDay(date).toISOString();
-    const timeMax = endOfDay(date).toISOString();
+    console.log('Fetching calendar events with token:', accessToken);
+    
+    const timeMin = new Date(date.setHours(0, 0, 0, 0)).toISOString();
+    const timeMax = new Date(date.setHours(23, 59, 59, 999)).toISOString();
     
     const response = await fetch(
-      `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${timeMin}&timeMax=${timeMax}&singleEvents=true&orderBy=startTime`,
+      `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${timeMin}&timeMax=${timeMax}&singleEvents=true`,
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
       }
@@ -37,32 +34,25 @@ export async function getGoogleCalendarSlots(
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.error('Calendar API error:', errorData);
       throw new Error(errorData.error?.message || `Calendar API error: ${response.status}`);
     }
 
     const data = await response.json();
+    console.log('Calendar events:', data.items);
+
     const events: CalendarEvent[] = data.items || [];
 
-    // Update availability based on calendar events
     return baseSlots.map(slot => {
-      const slotTime = parse(slot.time, 'h:mm a', date);
-      const slotEnd = addMinutes(slotTime, 30);
+      const slotStart = parse(slot.time, 'h:mm a', date);
+      const slotEnd = addMinutes(slotStart, 30);
 
       const isSlotBusy = events.some(event => {
-        // Handle all-day events
-        if (event.start.date && event.end.date) {
-          const eventStart = new Date(event.start.date);
-          const eventEnd = new Date(event.end.date);
-          return isWithinInterval(slotTime, { start: eventStart, end: eventEnd });
-        }
-
-        // Handle regular events
         if (event.start.dateTime && event.end.dateTime) {
           const eventStart = new Date(event.start.dateTime);
           const eventEnd = new Date(event.end.dateTime);
-          return slotTime < eventEnd && slotEnd > eventStart;
+          return slotStart < eventEnd && slotEnd > eventStart;
         }
-
         return false;
       });
 
@@ -72,7 +62,7 @@ export async function getGoogleCalendarSlots(
       };
     });
   } catch (error) {
-    console.error('Error fetching Google Calendar:', error);
-    throw new Error('Failed to fetch calendar events. Please try again.');
+    console.error('Calendar integration error:', error);
+    throw error;
   }
 }
