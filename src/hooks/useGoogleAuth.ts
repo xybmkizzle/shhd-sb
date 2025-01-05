@@ -10,13 +10,14 @@ export function useGoogleAuth() {
 
   const login = useGoogleLogin({
     scope: 'https://www.googleapis.com/auth/calendar.events.readonly https://www.googleapis.com/auth/calendar.readonly',
-    onSuccess: (tokenResponse) => {
+    onSuccess: tokenResponse => {
       setError(null);
       return tokenResponse.access_token;
     },
     onError: () => {
       setError('Failed to connect to Google Calendar');
     },
+    flow: 'implicit'
   });
 
   const handleLogin = useCallback(async () => {
@@ -26,8 +27,7 @@ export function useGoogleAuth() {
 
     try {
       setError(null);
-      const tokenResponse = await login();
-      return tokenResponse.access_token;
+      return await login();
     } catch (err) {
       setError('Failed to connect to Google Calendar');
       return null;
