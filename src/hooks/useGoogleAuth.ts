@@ -3,16 +3,16 @@
  */
 import { useState, useCallback } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
-import { isUsingDevelopmentConfig } from '../config/google';
 
 export function useGoogleAuth() {
   const [error, setError] = useState<string | null>(null);
-  const isDevelopment = isUsingDevelopmentConfig();
+  const isDevelopment = !import.meta.env.VITE_GOOGLE_CLIENT_ID;
 
   const login = useGoogleLogin({
     scope: 'https://www.googleapis.com/auth/calendar.events.readonly https://www.googleapis.com/auth/calendar.readonly',
-    onSuccess: (response) => {
-      return response.access_token;
+    onSuccess: (tokenResponse) => {
+      setError(null);
+      return tokenResponse.access_token;
     },
     onError: () => {
       setError('Failed to connect to Google Calendar');
@@ -26,8 +26,8 @@ export function useGoogleAuth() {
 
     try {
       setError(null);
-      const response = await login();
-      return response.access_token;
+      const tokenResponse = await login();
+      return tokenResponse.access_token;
     } catch (err) {
       setError('Failed to connect to Google Calendar');
       return null;

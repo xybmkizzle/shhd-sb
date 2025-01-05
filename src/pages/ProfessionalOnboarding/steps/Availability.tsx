@@ -1,8 +1,6 @@
 /**
  * Availability management step
- * Handles Google Calendar integration and availability settings
  */
-
 import { useState } from 'react';
 import { ProfessionalFormData } from '../../../types';
 import GoogleCalendarConnect from '../../../components/Calendar/GoogleCalendarConnect';
@@ -16,9 +14,11 @@ interface Props {
 export default function Availability({ data, onUpdate }: Props) {
   const [selectedDate, setSelectedDate] = useState<Date>(() => new Date());
   const [accessToken, setAccessToken] = useState<string>();
+  const [isCalendarConnected, setIsCalendarConnected] = useState(false);
 
   const handleCalendarConnect = (token: string) => {
     setAccessToken(token);
+    setIsCalendarConnected(true);
     onUpdate({ googleCalendarConnected: true });
   };
 
@@ -33,7 +33,7 @@ export default function Availability({ data, onUpdate }: Props) {
         </p>
         <GoogleCalendarConnect
           onConnect={handleCalendarConnect}
-          isConnected={!!accessToken}
+          isConnected={isCalendarConnected}
         />
       </div>
 

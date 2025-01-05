@@ -1,8 +1,6 @@
 /**
  * Component for connecting to Google Calendar
- * Handles OAuth flow and displays connection status
  */
-
 import { Calendar, CheckCircle } from 'lucide-react';
 import { useGoogleAuth } from '../../hooks/useGoogleAuth';
 
@@ -32,8 +30,7 @@ export default function GoogleCalendarConnect({ onConnect, isConnected }: Props)
           Google Calendar (Development Mode)
         </button>
         <p className="mt-2 text-sm text-gray-500">
-          Google Calendar integration is disabled in development mode.
-          Configure Google OAuth credentials to enable this feature.
+          Configure Google OAuth credentials to enable calendar integration.
         </p>
       </div>
     );
