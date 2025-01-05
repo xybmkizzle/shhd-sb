@@ -1,8 +1,6 @@
 /**
  * Calendar component for booking appointments
- * Handles date selection, time slot display, and Google Calendar integration
  */
-
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { format, addMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, isToday, isBefore, startOfToday } from 'date-fns';
@@ -18,9 +16,9 @@ interface CalendarProps {
 }
 
 export default function Calendar({ selectedDate, onDateChange, onTimeSelected, accessToken }: CalendarProps) {
-  const [currentMonth, setCurrentMonth] = useState(startOfMonth(selectedDate));
+  const [currentMonth, setCurrentMonth] = useState(() => startOfMonth(new Date()));
   const today = startOfToday();
-  
+
   const monthDays = eachDayOfInterval({
     start: startOfMonth(currentMonth),
     end: endOfMonth(currentMonth)

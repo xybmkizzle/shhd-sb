@@ -1,8 +1,6 @@
 /**
  * Custom hook for handling Google OAuth authentication
- * Manages OAuth flow and error handling for calendar integration
  */
-
 import { useState, useCallback } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { isUsingDevelopmentConfig } from '../config/google';
@@ -12,18 +10,13 @@ export function useGoogleAuth() {
   const isDevelopment = isUsingDevelopmentConfig();
 
   const login = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      setError(null);
-      return tokenResponse;
-    },
-    onError: (errorResponse) => {
-      setError(errorResponse?.error_description || 'Failed to connect to Google Calendar');
-    },
     scope: 'https://www.googleapis.com/auth/calendar.events.readonly https://www.googleapis.com/auth/calendar.readonly',
-    flow: 'auth-code',
-    onNonOAuthError: (err) => {
-      setError(err.message || 'An unexpected error occurred');
-    }
+    onSuccess: (response) => {
+      return response.access_token;
+    },
+    onError: () => {
+      setError('Failed to connect to Google Calendar');
+    },
   });
 
   const handleLogin = useCallback(async () => {
@@ -33,11 +26,10 @@ export function useGoogleAuth() {
 
     try {
       setError(null);
-      const tokenResponse = await login();
-      return tokenResponse.access_token;
+      const response = await login();
+      return response.access_token;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to connect to Google Calendar';
-      setError(errorMessage);
+      setError('Failed to connect to Google Calendar');
       return null;
     }
   }, [isDevelopment, login]);

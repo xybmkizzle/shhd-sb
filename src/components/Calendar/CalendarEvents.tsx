@@ -2,7 +2,7 @@
  * Component to display Google Calendar events for selected date
  */
 import { useEffect, useState } from 'react';
-import { format } from 'date-fns';
+import { format, startOfDay, endOfDay } from 'date-fns';
 import { Calendar, Clock } from 'lucide-react';
 
 interface CalendarEvent {
@@ -30,8 +30,8 @@ export default function CalendarEvents({ selectedDate, accessToken }: Props) {
       setError(null);
 
       try {
-        const timeMin = new Date(selectedDate.setHours(0, 0, 0, 0)).toISOString();
-        const timeMax = new Date(selectedDate.setHours(23, 59, 59, 999)).toISOString();
+        const timeMin = startOfDay(selectedDate).toISOString();
+        const timeMax = endOfDay(selectedDate).toISOString();
         
         const response = await fetch(
           `https://www.googleapis.com/calendar/v3/calendars/primary/events?timeMin=${timeMin}&timeMax=${timeMax}&singleEvents=true&orderBy=startTime`,
@@ -44,7 +44,8 @@ export default function CalendarEvents({ selectedDate, accessToken }: Props) {
         );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch calendar events');
+          const errorData = await response.json();
+          throw new Error(errorData.error?.message || 'Failed to fetch calendar events');
         }
 
         const data = await response.json();
