@@ -1,41 +1,36 @@
 /**
  * Custom hook for handling Google OAuth authentication
  */
+
 import { useState, useCallback } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
+import { isUsingDevelopmentConfig } from '../config/google';
 
-// Define required calendar scopes
-const CALENDAR_SCOPES = [
-  'https://www.googleapis.com/auth/calendar.readonly',
-  'https://www.googleapis.com/auth/calendar.events',
-];
+interface TokenResponse {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  scope: string;
+}
 
 export function useGoogleAuth() {
   const [error, setError] = useState<string | null>(null);
-  const isDevelopment = !import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const isDevelopment = isUsingDevelopmentConfig();
 
-  const login = useCallback(() => {
-    return new Promise((resolve, reject) => {
-      useGoogleLogin({
-        scope: CALENDAR_SCOPES.join(' '),
-        flow: 'implicit',
-        onSuccess: (response) => {
-          console.log('Google OAuth success response:', response);
-          if (response && response.access_token) {
-            resolve(response);
-          } else {
-            reject(new Error('Access token is missing in the response'));
-          }
-        },
-        onError: (errorResponse) => {
-          console.error('Google OAuth error response:', errorResponse);
-          reject(new Error('Failed to connect to Google Calendar'));
-        },
-      })();
-    });
-  }, []);
+  const login = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      console.log('Google OAuth success:', tokenResponse);
+      return tokenResponse;
+    },
+    onError: (errorResponse) => {
+      console.error('Google OAuth error:', errorResponse);
+      setError('Failed to connect to Google Calendar');
+    },
+    scope: 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/calendar.events',
+    flow: 'implicit'
+  });
 
-  const handleLogin = useCallback(async () => {
+  const handleLogin = useCallback(async (): Promise<TokenResponse | null> => {
     if (isDevelopment) {
       console.warn('Development mode: Google Calendar integration is disabled');
       return null;
@@ -43,13 +38,12 @@ export function useGoogleAuth() {
 
     try {
       setError(null);
-      console.log('Initiating Google OAuth login...');
       const response = await login();
-      console.log('Google OAuth login response:', response);
-      return response;
+      console.log('Google OAuth response:', response);
+      return response as TokenResponse;
     } catch (err) {
       console.error('OAuth login error:', err);
-      setError(err.message || 'Failed to connect to Google Calendar');
+      setError('Failed to connect to Google Calendar');
       return null;
     }
   }, [isDevelopment, login]);
