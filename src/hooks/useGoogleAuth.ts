@@ -17,8 +17,11 @@ export function useGoogleAuth() {
   const login = useGoogleLogin({
     scope: CALENDAR_SCOPES.join(' '),
     flow: 'implicit',
+    onSuccess: (response) => {
+      console.log('Google OAuth success response:', response);
+    },
     onError: (errorResponse) => {
-      console.error('Google OAuth error:', errorResponse);
+      console.error('Google OAuth error response:', errorResponse);
       setError('Failed to connect to Google Calendar');
     }
   });
@@ -31,10 +34,12 @@ export function useGoogleAuth() {
 
     try {
       setError(null);
+      console.log('Initiating Google OAuth login...');
       const response = await login();
+      console.log('Google OAuth login response:', response);
       return response;
     } catch (err) {
-      console.error('OAuth error:', err);
+      console.error('OAuth login error:', err);
       setError('Failed to connect to Google Calendar');
       return null;
     }
