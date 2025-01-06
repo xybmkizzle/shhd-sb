@@ -1,6 +1,5 @@
 /**
  * Mock professional data
- * Contains sample professional profiles for development
  */
 
 import { Professional } from '../types';
@@ -12,7 +11,7 @@ export const professionals: Professional[] = [
     title: 'Licensed Clinical Psychologist',
     location: 'Atlanta, Georgia',
     specialties: ['Anxiety', 'Depression', 'Trauma', 'BIPOC Mental Health'],
-    imageUrl: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e',
+    imageUrl: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f',
     bio: 'With over 15 years of experience, I specialize in helping individuals navigate life transitions, manage anxiety, and overcome trauma. My approach combines cognitive-behavioral therapy with culturally responsive care.',
     verifications: [
       'Vetted by the Safe Haven Team',
@@ -25,16 +24,16 @@ export const professionals: Professional[] = [
   },
   {
     id: '2',
-    name: 'Dr. James Chen',
+    name: 'Dr. Marcus Johnson',
     title: 'Marriage and Family Therapist',
-    location: 'San Francisco, California',
+    location: 'Chicago, Illinois',
     specialties: ['Relationships', 'Family Dynamics', 'Cultural Identity', 'Work-Life Balance'],
-    imageUrl: 'https://images.unsplash.com/photo-1556157382-97eda2d62296',
-    bio: 'As a relationship expert with a multicultural background, I help couples and families build stronger connections while navigating cultural differences. I offer a safe space for exploring identity and improving communication.',
+    imageUrl: 'https://images.unsplash.com/photo-1566492031773-4f4e44671857',
+    bio: 'As a relationship expert, I help couples and families build stronger connections while navigating life\'s challenges. I offer a safe space for exploring identity and improving communication.',
     verifications: [
       'Vetted by the Safe Haven Team',
-      'AAPI community specialist',
-      'Certified Gottman Method Therapist'
+      'Certified Gottman Method Therapist',
+      'Black families specialist'
     ],
     sessionTypes: ['Virtual', 'In-person'],
     rating: 4.8,
@@ -43,20 +42,20 @@ export const professionals: Professional[] = [
   },
   {
     id: '3',
-    name: 'Dr. Sarah Martinez',
-    title: 'LGBTQ+ Affirming Therapist',
-    location: 'Austin, Texas',
-    specialties: ['LGBTQ+ Issues', 'Self-Care', 'Stress Management', 'Cultural Identity'],
-    imageUrl: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df',
-    bio: 'I provide affirming therapy for the LGBTQ+ community, focusing on identity exploration, coming out support, and relationship guidance. My practice is grounded in intersectional understanding and trauma-informed care.',
+    name: 'Dr. Jasmine Williams',
+    title: 'Trauma-Informed Therapist',
+    location: 'Washington, DC',
+    specialties: ['Trauma', 'Self-Care', 'Stress Management', 'Cultural Identity'],
+    imageUrl: 'https://images.unsplash.com/photo-1589156229687-496a31ad1d1f',
+    bio: 'I provide trauma-informed therapy focusing on healing, personal growth, and empowerment. My practice is grounded in cultural understanding and evidence-based care.',
     verifications: [
       'Vetted by the Safe Haven Team',
-      'LGBTQ+ Certified Therapist',
-      'Gender-Affirming Care Specialist'
+      'EMDR Certified',
+      'Black women specialist'
     ],
     sessionTypes: ['Virtual'],
     rating: 5.0,
     reviewCount: 87,
-    gender: 'Non-binary'
+    gender: 'Female'
   }
 ];
